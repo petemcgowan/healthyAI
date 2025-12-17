@@ -7,30 +7,28 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native'
-import Animated, { FadeIn } from 'react-native-reanimated'
-import { useSelector, useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { RFPercentage } from 'react-native-responsive-fontsize'
-import { actionCreators, State } from '../../redux/index'
+import Animated, {FadeIn} from 'react-native-reanimated'
+import {useSelector, useDispatch} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {RFPercentage} from 'react-native-responsive-fontsize'
+import {actionCreators, State} from '../../redux/index'
 
-const { width, height } = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 const threeQuarterWidth = width * 0.8
 
 interface WeightUnitsRadioGroupProps {
   animatedStyle: Record<string, any>
 }
 
-const WeightUnitsRadioGroup = ({
-  animatedStyle,
-}: WeightUnitsRadioGroupProps) => {
+const WeightUnitsRadioGroup = ({animatedStyle}: WeightUnitsRadioGroupProps) => {
   const weightUnits = useSelector((state: State) => state.weightUnits)
   const dispatch = useDispatch()
-  const { setWeightUnits } = bindActionCreators(actionCreators, dispatch)
+  const {setWeightUnits} = bindActionCreators(actionCreators, dispatch)
 
   const dynamicStyles = StyleSheet.create({
     animatedBlock: {
       height: RFPercentage(7.0),
-      width: threeQuarterWidth,
+      width: 300,
       borderWidth: 3,
       borderColor: '#84c4ec',
       backgroundColor: '#84c4ec',
@@ -43,7 +41,7 @@ const WeightUnitsRadioGroup = ({
     },
     animatedBlockPlaceholder: {
       height: RFPercentage(7.5),
-      width: threeQuarterWidth,
+      width: 300,
       borderWidth: 3,
       borderColor: '#84c4ec',
       alignItems: 'center',
@@ -58,22 +56,21 @@ const WeightUnitsRadioGroup = ({
         <TouchableWithoutFeedback //Pounds  ON
           onPress={() => {
             setWeightUnits('kg')
-          }}
-        >
+          }}>
           <Animated.View style={dynamicStyles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>Pounds</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //Pounds  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={dynamicStyles.animatedBlockPlaceholder}
             onPress={() => {
               setWeightUnits('Pounds') // Turning POUNDS ON
-            }}
-          >
+            }}>
             <Text style={dynamicStyles.animatedTextPlaceholder}>Pounds</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -82,22 +79,21 @@ const WeightUnitsRadioGroup = ({
         <TouchableWithoutFeedback //kg  ON
           onPress={() => {
             setWeightUnits('Pounds')
-          }}
-        >
+          }}>
           <Animated.View style={dynamicStyles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>kg</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //kg  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={dynamicStyles.animatedBlockPlaceholder}
             onPress={() => {
               setWeightUnits('kg') // Turning KG ON
-            }}
-          >
+            }}>
             <Text style={dynamicStyles.animatedTextPlaceholder}>kg</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -106,22 +102,21 @@ const WeightUnitsRadioGroup = ({
         <TouchableWithoutFeedback //Stones/Pounds  ON
           onPress={() => {
             setWeightUnits('Pounds')
-          }}
-        >
+          }}>
           <Animated.View style={dynamicStyles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>Stones/Pounds</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //Stones/Pounds  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={dynamicStyles.animatedBlockPlaceholder}
             onPress={() => {
               setWeightUnits('Stones/Pounds') // Turning Stones/Pounds ON
-            }}
-          >
+            }}>
             <Text style={dynamicStyles.animatedTextPlaceholder}>
               Stones/Pounds
             </Text>
@@ -134,7 +129,7 @@ const WeightUnitsRadioGroup = ({
 
 const styles = StyleSheet.create({
   animatedBox: {
-    padding: 5,
+    // padding: 5,
     alignItems: 'center',
   },
   animatedText: {

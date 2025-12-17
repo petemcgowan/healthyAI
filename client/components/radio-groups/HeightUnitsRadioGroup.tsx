@@ -7,23 +7,23 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native'
-import Animated, { FadeIn } from 'react-native-reanimated'
-import { useSelector, useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { RFPercentage } from 'react-native-responsive-fontsize'
-import { actionCreators, State } from '../../redux/index'
+import Animated, {FadeIn} from 'react-native-reanimated'
+import {useSelector, useDispatch} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {RFPercentage} from 'react-native-responsive-fontsize'
+import {actionCreators, State} from '../../redux/index'
 
-const { width, height } = Dimensions.get('window')
-const threeQuarterWidth = width * 0.85
+const {width, height} = Dimensions.get('window')
+const threeQuarterWidth = width * 0.75
 
 interface HeightUnitsBlockProps {
   animatedStyle: Record<string, any>
 }
 
-const HeightUnitsRadioGroup = ({ animatedStyle }: HeightUnitsBlockProps) => {
+const HeightUnitsRadioGroup = ({animatedStyle}: HeightUnitsBlockProps) => {
   const heightUnits = useSelector((state: State) => state.heightUnits)
   const dispatch = useDispatch()
-  const { setHeightUnits } = bindActionCreators(actionCreators, dispatch)
+  const {setHeightUnits} = bindActionCreators(actionCreators, dispatch)
 
   return (
     <View style={styles.animatedBox}>
@@ -31,22 +31,21 @@ const HeightUnitsRadioGroup = ({ animatedStyle }: HeightUnitsBlockProps) => {
         <TouchableWithoutFeedback //Feet/Inches  ON
           onPress={() => {
             setHeightUnits('cm')
-          }}
-        >
+          }}>
           <Animated.View style={styles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>Feet/Inches</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //Feet/Inches  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={styles.animatedBlockPlaceholder}
             onPress={() => {
               setHeightUnits('Feet/Inches')
-            }}
-          >
+            }}>
             <Text style={styles.animatedTextPlaceholder}>Feet/Inches</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -55,22 +54,21 @@ const HeightUnitsRadioGroup = ({ animatedStyle }: HeightUnitsBlockProps) => {
         <TouchableWithoutFeedback //cm  ON
           onPress={() => {
             setHeightUnits('Feet/Inches')
-          }}
-        >
+          }}>
           <Animated.View style={styles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>cm</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //cm  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={styles.animatedBlockPlaceholder}
             onPress={() => {
               setHeightUnits('cm')
-            }}
-          >
+            }}>
             <Text style={styles.animatedTextPlaceholder}>cm</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   animatedBlockPlaceholder: {
-    height: RFPercentage(7.5),
+    height: RFPercentage(6.5),
     width: threeQuarterWidth,
     borderWidth: 3,
     borderColor: '#84c4ec',

@@ -1,142 +1,128 @@
-import React, { useRef, useEffect } from 'react'
-import { View, Text, Dimensions, StyleSheet, Image } from 'react-native'
-import Video from 'react-native-video'
-import { RFPercentage } from 'react-native-responsive-fontsize'
-import FastImage from 'react-native-fast-image'
+import React, {useRef, useState, useEffect} from 'react'
+import {View, Text, Dimensions, StyleSheet, Image} from 'react-native'
+import Video, {ReactVideoSource, ResizeMode} from 'react-native-video'
+import {RFPercentage} from 'react-native-responsive-fontsize'
 
-const { width, height } = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 
 interface SlideComponentProps {
-  type: string
   title: string
   description: string
-  gifLink: string
-  videoLink: string
+  videoSource: ReactVideoSource
   intro: boolean
   hasSeenIntro: boolean
+  shouldPlay: boolean
+  posterSource: any
+  // shouldRenderVideo: boolean;
 }
 
 const SlideComponent = ({
-  type,
   title,
   description,
-  gifLink,
-  videoLink,
+  videoSource,
   intro,
   hasSeenIntro,
-}: SlideComponentProps) => {
-  const dominantColor = 'rgb(38, 27, 21)' // Dominant colour of image
-  const videoRef = useRef(null)
+  shouldPlay,
+  posterSource,
+}: // shouldRenderVideo,
+SlideComponentProps) => {
+  const videoRef = useRef<Video>(null)
 
-  useEffect(() => {
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.setNativeProps({ paused: true }) // Pause the video
-      }
-    }
-  }, [hasSeenIntro])
+  // Simple State: Is the video ready to be shown?
+  const [isVideoReady, setIsVideoReady] = useState(false)
+
+  const isPaused = !shouldPlay || hasSeenIntro
+  const posterUri = posterSource
+    ? Image.resolveAssetSource(posterSource).uri
+    : null
+
+  // Reset the ready state if we scroll away.
+  // This brings the poster back if the user swipes back to this slide later.
+  // useEffect(() => {
+  //   if (!shouldPlay) {
+  //     setIsVideoReady(false);
+  //   }
+  // }, [shouldPlay]);
 
   return (
     <View style={styles.slideContainer}>
-      {gifLink && (
-        <View style={styles.videoContainer}>
-          <FastImage
-            style={styles.video}
-            source={gifLink}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-        </View>
-      )}
-      {videoLink && (
-        <View style={styles.videoContainer}>
-          {/* <Image style={styles.video} source={videoLink} resizeMode="contain" /> */}
-          <Video
-            ref={videoRef}
-            muted={false}
-            rate={0.8}
-            repeat={!hasSeenIntro}
-            paused={hasSeenIntro}
-            style={styles.video}
-            source={videoLink}
+      <View style={styles.videoContainer}>
+        {/* 1. THE VIDEO (Bottom Layer) */}
+        {/* {shouldRenderVideo && ( */}
+        <Video
+          ref={videoRef}
+          source={videoSource}
+          paused={isPaused}
+          // NOW that the video file is vertical, 'contain' is safe and correct.
+          resizeMode={ResizeMode.CONTAIN}
+          muted={true}
+          rate={1.0}
+          repeat={true}
+          disableFocus={true}
+          playWhenInactive={false}
+          ignoreSilentSwitch="obey"
+          // Simple Trigger: When video paints first frame, hide poster.
+          onReadyForDisplay={() => setIsVideoReady(true)}
+          style={styles.video}
+        />
+        {/* )} */}
+
+        {/* 2. THE POSTER (Top Layer) */}
+        {/* Only render if video is NOT ready. */}
+        {!isVideoReady && posterUri && (
+          <Image
+            source={{uri: posterUri}}
+            style={[StyleSheet.absoluteFill, {zIndex: 10}]}
+            // MUST match the video's resizeMode so they overlap perfectly
             resizeMode="contain"
-            ignoreSilentSwitch="obey"
           />
-        </View>
-      )}
-      <View
-        style={type === 'video' ? styles.textBoxVideo : styles.textBoxImage}
-      >
-        <Text style={styles.title}>{title}</Text>
+        )}
       </View>
-      <View
-        style={type === 'video' ? styles.textBoxVideo : styles.textBoxImage}
-      >
+
+      <View style={styles.textBoxVideo}>
+        <Text style={styles.title}>{title}</Text>
         <Text style={styles.text}>{description}</Text>
       </View>
     </View>
   )
 }
 
-export default SlideComponent
-
 const styles = StyleSheet.create({
   slideContainer: {
     width: width,
-    paddingTop: 10,
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    // paddingBottom: 20,
-  },
-  textBoxImage: {
-    paddingHorizontal: 20,
     alignItems: 'center',
-    // marginTop: -70,
-  },
-  textBoxVideo: {
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    // marginTop: -70,
-  },
-  imageContainer: {
-    width: width,
-    height: height * 0.64,
-    alignSelf: 'center',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    justifyContent: 'center',
   },
   videoContainer: {
     width: width,
     height: height * 0.63,
-    // paddingVertical: 5,
-    alignSelf: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '90%',
-    resizeMode: 'cover',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    overflow: 'hidden',
   },
   video: {
-    width: '100%',
-    height: '100%',
+    width: width,
+    height: height * 0.63,
   },
-  textBox: {
+  textBoxVideo: {
     paddingHorizontal: 20,
     alignItems: 'center',
-  },
-  text: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: RFPercentage(2.5),
-    maxWidth: width - 40,
-    justifyContent: 'center',
+    marginTop: 20,
   },
   title: {
     color: 'white',
     textAlign: 'center',
     fontWeight: '600',
-    maxWidth: width - 40,
-    fontSize: RFPercentage(3.1),
-    justifyContent: 'center',
+    fontSize: RFPercentage(3.2),
+    marginBottom: 10,
+  },
+  text: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: RFPercentage(2),
   },
 })
+
+export default SlideComponent

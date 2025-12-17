@@ -6,8 +6,8 @@ import {
   Text,
   StyleSheet,
 } from 'react-native'
-import Animated, { FadeIn } from 'react-native-reanimated'
-import { RFPercentage } from 'react-native-responsive-fontsize'
+import Animated, {FadeIn} from 'react-native-reanimated'
+import {RFPercentage} from 'react-native-responsive-fontsize'
 
 interface AnimatedRadioGroupProps {
   animatedStyle: Record<string, any>
@@ -26,22 +26,21 @@ const AnimatedRadioGroup = ({
         <TouchableWithoutFeedback //Small  ON
           onPress={() => {
             setFrame('Medium')
-          }}
-        >
+          }}>
           <Animated.View style={styles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>Small</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //Small  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={styles.animatedBlockPlaceholder}
             onPress={() => {
               setFrame('Small') // Turning SMALL ON
-            }}
-          >
+            }}>
             <Text style={styles.animatedTextPlaceholder}>Small</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -50,22 +49,21 @@ const AnimatedRadioGroup = ({
         <TouchableWithoutFeedback //Medium  ON
           onPress={() => {
             setFrame('Small')
-          }}
-        >
+          }}>
           <Animated.View style={styles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>Medium</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //Medium  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={styles.animatedBlockPlaceholder}
             onPress={() => {
               setFrame('Medium') // Turning MEDIUM ON
-            }}
-          >
+            }}>
             <Text style={styles.animatedTextPlaceholder}>Medium</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -74,22 +72,21 @@ const AnimatedRadioGroup = ({
         <TouchableWithoutFeedback //Large  ON
           onPress={() => {
             setFrame('Small')
-          }}
-        >
+          }}>
           <Animated.View style={styles.animatedBlock} {...animatedStyle}>
             <Text style={styles.animatedText}>Large</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       ) : (
         <Animated.View //Large  OFF
-          entering={'entering' in animatedStyle ? undefined : FadeIn.delay(350)}
-        >
+          entering={
+            'entering' in animatedStyle ? undefined : FadeIn.delay(350)
+          }>
           <TouchableOpacity
             style={styles.animatedBlockPlaceholder}
             onPress={() => {
               setFrame('Large') // Turning Large ON
-            }}
-          >
+            }}>
             <Text style={styles.animatedTextPlaceholder}>Large</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -110,7 +107,7 @@ const styles = StyleSheet.create({
   },
   animatedTextPlaceholder: {
     color: 'white',
-    fontSize: RFPercentage(5),
+    fontSize: RFPercentage(4.5),
   },
   animatedBlockPlaceholder: {
     height: 70,
@@ -127,7 +124,7 @@ const styles = StyleSheet.create({
   },
   animatedText: {
     color: '#ffffff',
-    fontSize: RFPercentage(5),
+    fontSize: RFPercentage(4.5),
   },
 })
 

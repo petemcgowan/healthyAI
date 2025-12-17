@@ -1,12 +1,12 @@
-import React from 'react';
-import {View} from 'react-native';
-import {FadeIn} from 'react-native-reanimated';
+import React from 'react'
+import {View} from 'react-native'
+import {FadeIn} from 'react-native-reanimated'
 
-import AnimatedRadioGroup from '../radio-groups/AnimatedRadioGroup';
+import AnimatedRadioGroup from '../radio-groups/AnimatedRadioGroup'
 
 interface FramePickerProps {
-  frame: string;
-  setFrame: any;
+  frame: string
+  setFrame: any
 }
 
 const FramePicker = ({frame, setFrame}: FramePickerProps) => {
@@ -18,7 +18,7 @@ const FramePicker = ({frame, setFrame}: FramePickerProps) => {
         setFrame={setFrame}
       />
     </View>
-  );
-};
+  )
+}
 
-export default FramePicker;
+export default FramePicker

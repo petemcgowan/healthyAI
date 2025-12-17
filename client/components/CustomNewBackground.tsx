@@ -1,6 +1,6 @@
-import React, { useContext, useMemo } from 'react'
-import { BottomSheetBackgroundProps } from '@gorhom/bottom-sheet'
-import { View } from 'react-native'
+import React, {useContext, useMemo} from 'react'
+import {BottomSheetBackgroundProps} from '@gorhom/bottom-sheet'
+import {View} from 'react-native'
 import Animated, {
   useAnimatedStyle,
   interpolateColor,
@@ -11,7 +11,7 @@ export const CustomNewBackground: React.FC<BottomSheetBackgroundProps> = ({
   style,
   animatedIndex,
 }) => {
-  const { colourData, index } = useContext(ColourContext)
+  const {colourData, index} = useContext(ColourContext)
 
   const colourStart = colourData[index].bottom1
   const colourEnd = colourData[index].bottom2
@@ -20,12 +20,12 @@ export const CustomNewBackground: React.FC<BottomSheetBackgroundProps> = ({
     backgroundColor: interpolateColor(
       animatedIndex.value,
       [0, 1],
-      [colourStart, colourEnd]
+      [colourStart, colourEnd],
     ),
   }))
 
   const newStyle = {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
   }
