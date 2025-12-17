@@ -93,7 +93,6 @@ const AIChatSlide = () => {
   // The "Typewriter" Effect Logic
   const streamResponse = (fullText: string) => {
     const msgId = Date.now().toString()
-    // Add empty placeholder message
     setMessages(prev => [...prev, {id: msgId, text: '', isUser: false}])
 
     let currentText = ''
