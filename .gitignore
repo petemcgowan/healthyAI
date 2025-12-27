@@ -84,3 +84,4 @@ server/connection.json
 healthyMetrics.code-workspace
 server/openai.env
 client/android/gradle/wrapper/gradle-wrapper.properties
+healthyAI.code-workspace
