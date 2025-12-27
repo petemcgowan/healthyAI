@@ -1,31 +1,66 @@
-import React, { useEffect } from 'react'
-import { Text } from 'react-native'
-import 'react-native-gesture-handler'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-import SplashScreen from 'react-native-splash-screen'
-
+import React, {useEffect} from 'react'
+import {StatusBar, useColorScheme, StyleSheet} from 'react-native'
+import {SafeAreaProvider} from 'react-native-safe-area-context'
+import {Provider} from 'react-redux'
+import {PersistGate} from 'redux-persist/integration/react'
+import BootSplash from 'react-native-bootsplash'
 import TheoryComponent from './components/TheoryComponent'
-import { store, persistor } from './redux/store'
-// import axios from 'axios'
+import {LogBox} from 'react-native'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 
-export default function App() {
-  // Ionicons.loadFont();
+// Import your Store and Persistor
+import {store, persistor} from './redux/store'
+
+// --- LOGBOX CONFIGURATION ---
+// Suppress the annoying warnings we discussed
+LogBox.ignoreLogs([
+  'InteractionManager has been deprecated',
+  'Selector unknown returned the root state',
+  'SafeAreaView has been deprecated',
+])
+
+function App(): React.JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark'
   const [helpData, setHelpData] = React.useState([])
 
   useEffect(() => {
-    console.log('App useEffect')
+    const init = async () => {
+      // Any async loading tasks (auth check, font loading) go here.
 
-    // We've seen the onboarding, so hide it from now on
-    SplashScreen.hide()
+      // ...
+
+      // When ready, hide the splash screen with a smooth fade
+      await BootSplash.hide({fade: true})
+      console.log('BootSplash hidden')
+    }
+
+    init()
   }, [])
 
   return (
     <Provider store={store}>
-      <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-        <TheoryComponent helpData={helpData} />
+      <PersistGate loading={null} persistor={persistor}>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <SafeAreaProvider>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              backgroundColor={isDarkMode ? '#000000' : '#ffffff'}
+            />
+            {/*
+                  If you aren't using a StackNavigator yet and just showing
+                  the Swiper directly, this works. Otherwise, put your
+                  <Stack.Navigator> here.
+              */}
+            <TheoryComponent helpData={helpData} />
+          </SafeAreaProvider>
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   )
 }
+
+const styles = StyleSheet.create({
+  // Add global styles here if needed
+})
+
+export default App
